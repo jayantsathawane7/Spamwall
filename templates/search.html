@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}SpamWall{% endblock %}
+
+{% block content %}
+<h1>Search Phone Number</h1>
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="POST" class="mb-4">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="phone_number">Enter Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Search</button>
+</form>
+
+{% if phone_number %}
+    <h2>Results for: {{ phone_number }}</h2>
+    {% if associated_name %}
+    <p><strong>Is Spam:</strong> {{ is_spam|yesno:"Yes,No" }}</p>
+    <p><strong>Spam Reports:</strong> {{ spam_count }}</p>
+    <p><strong> Associated Name:</strong> {{ associated_name }}</p>
+    {% else %}
+        <p>No data found</p>
+    {% endif %}
+{% endif %}
+{% endblock %}
